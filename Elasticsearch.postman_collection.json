@@ -387,7 +387,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"mappings\": {\r\n    \"dynamic\": \"strict\", // tam olarak aşağıdaki kurala uymasını sağla, her veriyi kabul etme\r\n    \"properties\": {\r\n      \"title\": { \"type\": \"text\" },\r\n      \"content\": { \"type\": \"text\" },\r\n      \"author\": { \"type\": \"keyword\" },\r\n      \"date\": { \"type\": \"date\" },\r\n      \"tags\": { \"type\": \"keyword\" }\r\n    }\r\n  }\r\n}",
+							"raw": "{\r\n  \"mappings\": {\r\n    \"dynamic\": \"strict\", // aşağıdaki kurallar dışında gelebilecek yeni attr'lerin eklenmesine izin vermez.\r\n    \"properties\": {\r\n      \"id\": { \"type\": \"integer\", \"null_value\": -1 }, // null_value text typlerı için çalışmamaktadır.\r\n      \"content\": { \"type\": \"text\" },\r\n      \"author\": { \"type\": \"keyword\" },\r\n      \"date\": { \"type\": \"date\", \"format\": \"dd.MM.yyyy\" },\r\n      \"tags\": { \"type\": \"keyword\" }\r\n    }\r\n  }\r\n}\r\n\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -395,13 +395,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{nodeip}}/itemlist2",
+							"raw": "http://{{nodeip}}/category2",
 							"protocol": "http",
 							"host": [
 								"{{nodeip}}"
 							],
 							"path": [
-								"itemlist2"
+								"category2"
 							]
 						}
 					},
@@ -429,7 +429,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"index\":{\r\n        \"number_of_replicas\":2\r\n    }\r\n}",
+							"raw": "{\r\n    \"index\":{\r\n        \"number_of_replicas\":2\r\n    },\r\n      \"mappings\": {\r\n        \"dynamic\": \"strict\", // tam olarak aşağıdaki kurala uymasını sağla, her veriyi kabul etme\r\n        \"properties\": {\r\n        \"id\": { \"type\": \"integer\", \"null_value\": null }, // null_value text typlerı için çalışmamaktadır.\r\n        \"content\": { \"type\": \"text\" },\r\n        \"author\": { \"type\": \"keyword\" },\r\n        \"date\": { \"type\": \"date\", \"format\": \"dd.MM.yyyy\" },\r\n        \"tags\": { \"type\": \"keyword\" }\r\n        }\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -437,13 +437,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{nodeip}}/search/_settings",
+							"raw": "http://{{nodeip}}/category2/_settings",
 							"protocol": "http",
 							"host": [
 								"{{nodeip}}"
 							],
 							"path": [
-								"search",
+								"category2",
 								"_settings"
 							]
 						}
@@ -524,13 +524,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{nodeip}}/search2",
+							"raw": "http://{{nodeip}}/allproducts",
 							"protocol": "http",
 							"host": [
 								"{{nodeip}}"
 							],
 							"path": [
-								"search2"
+								"allproducts"
 							]
 						}
 					},
@@ -559,11 +559,11 @@
 								}
 							]
 						},
-						"method": "PUT",
+						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"customerId\":8741,\r\n    \"customerName\":\"Suat Sen\",\r\n    \"searchItem\":\"Samsung A30 Kılıf\"\r\n}",
+							"raw": "{ // post yöntemi için kayıt put yöntemi için update yapar.\r\n    \"title\": \"Cat-1\",\r\n    \"content\":\"Cat Detay\",\r\n    \"author\":\"Ahmet-\",\r\n    \"date\": \"\",\r\n    \"tags\": \"cat\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -571,22 +571,22 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{nodeip}}/search2/_doc/1",
+							"raw": "http://{{nodeip}}/category/_doc/",
 							"protocol": "http",
 							"host": [
 								"{{nodeip}}"
 							],
 							"path": [
-								"search2",
+								"category",
 								"_doc",
-								"1"
+								""
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Insert Document Copy",
+					"name": "Insert Document - Mapping",
 					"request": {
 						"auth": {
 							"type": "basic",
@@ -603,11 +603,11 @@
 								}
 							]
 						},
-						"method": "PUT",
+						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"customerId\":8741,\r\n    \"customerName\":\"Suat Sen\",\r\n    \"searchItem\":\"Samsung A30 Kılıf\"\r\n}",
+							"raw": "{\r\n    \"id\": null,\r\n    \"content\": \"Content Detail - 2\",\r\n    \"author\": \"Cep Telefonu\",\r\n    \"date\": \"12.06.2024\",\r\n    \"tags\": \"tag-1\",\r\n    \"status\": true\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -615,15 +615,14 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{nodeip}}/search2/_doc/1",
+							"raw": "http://{{nodeip}}/category2/_doc",
 							"protocol": "http",
 							"host": [
 								"{{nodeip}}"
 							],
 							"path": [
-								"search2",
-								"_doc",
-								"1"
+								"category2",
+								"_doc"
 							]
 						}
 					},
@@ -847,6 +846,50 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Java Rest Insert All - Products",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n    {\r\n        \"pid\": \"111\",\r\n        \"title\": \"Gıda Temel\",\r\n        \"description\": \"Gıda Temel, sağlıklı beslenmenin önemli bir parçasıdır. Bu ürün, günlük besin ihtiyacınızı karşılamak için gerekli olan temel gıda maddelerini içerir. Lezzetli ve doğal malzemelerden hazırlanmıştır. Aileniz için ideal bir seçimdir.\",\r\n        \"price\": 100\r\n    },\r\n    {\r\n        \"pid\": \"222\",\r\n        \"title\": \"Tablet Temel\",\r\n        \"description\": \"Tablet Temel, öğrencilerin ve profesyonellerin ihtiyaç duyduğu teknolojik bir üründür. Gelişmiş özellikleriyle eğitim ve iş hayatında verimliliği artırır. Hafif ve taşınabilir yapısıyla her yerde kullanabilirsiniz.\",\r\n        \"price\": 200\r\n    },\r\n    {\r\n        \"pid\": \"3\",\r\n        \"title\": \"Kalem Seti\",\r\n        \"description\": \"Kalem Seti, farklı renk ve tipte kalemler içeren bir üründür. Yazma deneyiminizi daha eğlenceli hale getirmek için tasarlanmıştır. Hem öğrenciler hem de sanatçılar için mükemmel bir hediye seçeneği sunar.\",\r\n        \"price\": 50\r\n    },\r\n    {\r\n        \"pid\": \"4\",\r\n        \"title\": \"Defter\",\r\n        \"description\": \"Defter, not almak, çizim yapmak veya günlük tutmak için idealdir. Kaliteli kağıdı sayesinde yazma deneyiminizi artırır. Farklı boyut ve tasarımları ile ihtiyaçlarınıza uygun seçenekler sunar.\",\r\n        \"price\": 30\r\n    },\r\n    {\r\n        \"pid\": \"5\",\r\n        \"title\": \"Renkli Kalemler\",\r\n        \"description\": \"Renkli kalemler, yaratıcılığınızı ortaya çıkarmak için harika bir üründür. Çizim yaparken veya not alırken renk seçenekleri ile eserlerinize canlılık katabilirsiniz. Farklı kalınlıklarda uçları vardır.\",\r\n        \"price\": 25\r\n    },\r\n    {\r\n        \"pid\": \"6\",\r\n        \"title\": \"Sulu Boya Seti\",\r\n        \"description\": \"Sulu boya seti, sanatseverler için mükemmel bir üründür. Farklı renk seçenekleri ile resimlerinize canlılık katabilir, yaratıcılığınızı geliştirebilirsiniz. Su ile karıştırarak istediğiniz tonları elde edebilirsiniz.\",\r\n        \"price\": 45\r\n    },\r\n    {\r\n        \"pid\": \"7\",\r\n        \"title\": \"Yazıcı Kartuşu\",\r\n        \"description\": \"Yazıcı kartuşu, yazıcılarınız için gerekli bir parçadır. Yüksek kaliteli baskılar almanızı sağlar. Uzun ömürlü ve dayanıklıdır. Bu ürün, hem ev hem de ofis kullanımında vazgeçilmezdir.\",\r\n        \"price\": 300\r\n    },\r\n    {\r\n        \"pid\": \"8\",\r\n        \"title\": \"Boya Fırçası Seti\",\r\n        \"description\": \"Boya fırçası seti, resim yapmayı sevenler için idealdir. Farklı boyut ve şekillerde fırçalar içerir. Her türlü yüzeyde rahatça kullanabilirsiniz. Sanat çalışmalarınıza profesyonel bir dokunuş katar.\",\r\n        \"price\": 60\r\n    },\r\n    {\r\n        \"pid\": \"9\",\r\n        \"title\": \"Sırt Çantası\",\r\n        \"description\": \"Sırt çantası, günlük kullanım için mükemmel bir aksesuardır. Geniş iç hacmi sayesinde birçok eşya taşıyabilir. Hem okul hem de seyahat için uygun, şık ve dayanıklı bir tasarıma sahiptir.\",\r\n        \"price\": 120\r\n    },\r\n    {\r\n        \"pid\": \"10\",\r\n        \"title\": \"Makasa\",\r\n        \"description\": \"Makasa, kesim işlerinde kullanılan pratik bir araçtır. Kaliteli ve dayanıklı malzemelerden üretilmiştir. Hem evde hem de ofiste kullanıma uygundur. Farklı boyut seçenekleri ile çeşitli ihtiyaçları karşılar.\",\r\n        \"price\": 10\r\n    },\r\n    {\r\n        \"pid\": \"11\",\r\n        \"title\": \"Not Defteri\",\r\n        \"description\": \"Not defteri, toplantılarda veya derslerde not almak için idealdir. Farklı kapak tasarımları ile hem şık hem de kullanışlıdır. Kaliteli kağıdı sayesinde yazma deneyiminizi geliştirir.\",\r\n        \"price\": 25\r\n    },\r\n    {\r\n        \"pid\": \"12\",\r\n        \"title\": \"Kalemtraş\",\r\n        \"description\": \"Kalemtraş, kalemlerinizi istediğiniz kalınlıkta açmanızı sağlar. Pratik yapısıyla her yerde rahatlıkla kullanabilirsiniz. Farklı renk seçenekleri ile hem eğlenceli hem de işlevseldir.\",\r\n        \"price\": 5\r\n    },\r\n    {\r\n        \"pid\": \"13\",\r\n        \"title\": \"Yazıcı\",\r\n        \"description\": \"Yazıcı, belgelerinizi hızlı ve kaliteli bir şekilde basmanızı sağlar. Ev ve ofis kullanımı için uygundur. Gelişmiş teknolojisi ile yüksek çözünürlükte baskılar alabilirsiniz. Ekonomik bir çözümdür.\",\r\n        \"price\": 600\r\n    },\r\n    {\r\n        \"pid\": \"14\",\r\n        \"title\": \"Bluetooth Kulaklık\",\r\n        \"description\": \"Bluetooth kulaklık, müzik dinleme veya telefon görüşmeleri için idealdir. Kablosuz yapısı ile özgürlük sunar. Uzun pil ömrü ve konforlu tasarımı ile gün boyu kullanım için uygundur.\",\r\n        \"price\": 150\r\n    },\r\n    {\r\n        \"pid\": \"15\",\r\n        \"title\": \"Akıllı Saat\",\r\n        \"description\": \"Akıllı saat, sağlık takibi ve bildirimleri kontrol etmek için mükemmel bir üründür. Kullanıcı dostu arayüzü sayesinde kolaylıkla kullanılabilir. Fitness takip özellikleri ile sağlıklı yaşamınıza katkıda bulunur.\",\r\n        \"price\": 500\r\n    },\r\n    {\r\n        \"pid\": \"16\",\r\n        \"title\": \"Harici Disk\",\r\n        \"description\": \"Harici disk, verilerinizi güvenle saklamanız için idealdir. Yüksek kapasiteli depolama alanı sunar. Taşınabilir yapısı sayesinde verilerinizi her yere götürebilirsiniz. Güvenilir bir veri saklama çözümüdür.\",\r\n        \"price\": 400\r\n    },\r\n    {\r\n        \"pid\": \"17\",\r\n        \"title\": \"Dizüstü Bilgisayar\",\r\n        \"description\": \"Dizüstü bilgisayar, hem iş hem de eğlence amaçlı kullanım için idealdir. Güçlü işlemcisi ve yüksek depolama kapasitesi ile verimliliğinizi artırır. Hafif yapısı sayesinde taşınması kolaydır.\",\r\n        \"price\": 3000\r\n    },\r\n    {\r\n        \"pid\": \"18\",\r\n        \"title\": \"Yüzme Gözlüğü\",\r\n        \"description\": \"Yüzme gözlüğü, su altında görüşünüzü netleştirmek için tasarlanmıştır. Su geçirmez yapısı sayesinde konforlu bir deneyim sunar. Farklı renk seçenekleri ile tarzınıza uygun seçim yapabilirsiniz.\",\r\n        \"price\": 25\r\n    },\r\n    {\r\n        \"pid\": \"19\",\r\n        \"title\": \"Puzzle\",\r\n        \"description\": \"Puzzle, boş zamanlarınızı değerlendirmek için harika bir aktivitedir. Farklı parça sayıları ile hem çocuklar hem de yetişkinler için uygundur. Zihin geliştirici özelliği ile eğlenceli bir deneyim sunar.\",\r\n        \"price\": 30\r\n    },\r\n    {\r\n        \"pid\": \"20\",\r\n        \"title\": \"Oyun Hamuru\",\r\n        \"description\": \"Oyun hamuru, çocukların yaratıcılıklarını geliştirmek için idealdir. Farklı renk seçenekleri ile eğlenceli oyun saatleri sunar. Eğlenceli ve eğitimsel bir oyuncaktır. Güvenli malzemelerden üretilmiştir.\",\r\n        \"price\": 35\r\n    },\r\n    {\r\n        \"pid\": \"21\",\r\n        \"title\": \"Sırt Çantası\",\r\n        \"description\": \"Sırt çantası, günlük kullanım için harika bir aksesuardır. İç hacmi geniştir ve birçok eşya taşıyabilir. Hem okul hem de seyahat için idealdir. Dayanıklı malzemeleri ile uzun süreli kullanıma uygundur.\",\r\n        \"price\": 120\r\n    },\r\n    {\r\n        \"pid\": \"22\",\r\n        \"title\": \"Dış Mekan Oyun Seti\",\r\n        \"description\": \"Dış mekan oyun seti, çocuklar için eğlenceli vakit geçirme imkanı sunar. Farklı oyun araçları ile arkadaşlarıyla oynayarak sosyalleşir. Sağlıklı bir aktivite ile açık havada zaman geçirebilirler.\",\r\n        \"price\": 80\r\n    },\r\n    {\r\n        \"pid\": \"23\",\r\n        \"title\": \"Oyun Konsolu\",\r\n        \"description\": \"Oyun konsolu, hem çocuklar hem de yetişkinler için eğlenceli bir aktivitedir. Çeşitli oyun seçenekleri ile arkadaşlarınızla veya ailenizle keyifli zaman geçirmenizi sağlar. Eğlenceli ve sosyal bir deneyim sunar.\",\r\n        \"price\": 3000\r\n    },\r\n    {\r\n        \"pid\": \"24\",\r\n        \"title\": \"Kamp Çadırı\",\r\n        \"description\": \"Kamp çadırı, doğa ile iç içe bir tatil için ideal bir üründür. Kolay kurulumu ile her yerde kullanabilirsiniz. Su geçirmez yapısı sayesinde yağmurlu havalarda da koruma sağlar. Ailece keyifli anlar geçirmenizi sağlar.\",\r\n        \"price\": 700\r\n    },\r\n    {\r\n        \"pid\": \"25\",\r\n        \"title\": \"Yürüyüş Ayakkabısı\",\r\n        \"description\": \"Yürüyüş ayakkabısı, açık hava etkinlikleri için tasarlanmıştır. Rahat ve dayanıklı malzemelerden üretilmiştir. Her türlü arazide rahatça yürüyüş yapmanızı sağlar. Doğayla baş başa kalmanın keyfini çıkarın.\",\r\n        \"price\": 250\r\n    },\r\n    {\r\n        \"pid\": \"26\",\r\n        \"title\": \"Dizüstü Bilgisayar Çantası\",\r\n        \"description\": \"Dizüstü bilgisayar çantası, bilgisayarınızı güvenle taşımak için idealdir. Şık tasarımıyla hem iş hem de günlük kullanımda tercih edilebilir. Yastıklama özellikleri sayesinde cihazınızı korur.\",\r\n        \"price\": 100\r\n    },\r\n    {\r\n        \"pid\": \"27\",\r\n        \"title\": \"Gözlük\",\r\n        \"description\": \"Gözlük, hem görme bozuklukları için hem de güneş ışınlarından korunmak için kullanılır. Şık tasarımı ve çeşitli renk seçenekleri ile stilinizi tamamlar. Göz sağlığınızı korumak için gereklidir.\",\r\n        \"price\": 150\r\n    },\r\n    {\r\n        \"pid\": \"28\",\r\n        \"title\": \"Telefon Tutucu\",\r\n        \"description\": \"Telefon tutucu, araç içinde güvenli bir şekilde telefonunuzu kullanmanıza olanak tanır. Farklı boyutlarda ayarlanabilir yapısıyla uyum sağlar. Navigasyon veya müzik dinleme sırasında elinizi serbest bırakır.\",\r\n        \"price\": 30\r\n    },\r\n    {\r\n        \"pid\": \"29\",\r\n        \"title\": \"Mini Buzdolabı\",\r\n        \"description\": \"Mini buzdolabı, küçük alanlarda kullanım için idealdir. Ofiste veya kamp alanında soğuk içeceklerinizi saklayabilirsiniz. Kompakt yapısı ile taşınabilir, enerji verimliliği ile de tasarruf sağlar.\",\r\n        \"price\": 800\r\n    },\r\n    {\r\n        \"pid\": \"30\",\r\n        \"title\": \"Masa Lambası\",\r\n        \"description\": \"Masa lambası, çalışma alanınızı aydınlatmak için idealdir. Ayarlanabilir başlığı ile istediğiniz açıyı ayarlayabilirsiniz. Modern tasarımıyla ofis veya evde şık bir görünüm sağlar.\",\r\n        \"price\": 75\r\n    },\r\n    {\r\n        \"pid\": \"31\",\r\n        \"title\": \"Kablosuz Şarj Aleti\",\r\n        \"description\": \"Kablosuz şarj aleti, telefonunuzu hızlı ve pratik bir şekilde şarj etmenizi sağlar. Kablolarla uğraşmadan, sadece telefonunuzu yerleştirerek şarj edebilirsiniz. Modern ve şık tasarımıyla her ortamda kullanışlıdır.\",\r\n        \"price\": 100\r\n    },\r\n    {\r\n        \"pid\": \"32\",\r\n        \"title\": \"Termos\",\r\n        \"description\": \"Termos, sıcak ve soğuk içeceklerinizi uzun süre muhafaza etmenizi sağlar. Seyahatlerinizde veya iş yerinde kullanabileceğiniz pratik bir üründür. Çeşitli renk seçenekleri ile tarzınıza uygun bir seçim yapabilirsiniz.\",\r\n        \"price\": 50\r\n    },\r\n    {\r\n        \"pid\": \"33\",\r\n        \"title\": \"Katlanır Sandalye\",\r\n        \"description\": \"Katlanır sandalye, piknik ve kamp etkinlikleri için idealdir. Hafif yapısı sayesinde kolay taşınır. Konforlu oturma alanı ile uzun süreli kullanımlarda rahatlık sağlar. Pratik kullanım için tasarlanmıştır.\",\r\n        \"price\": 80\r\n    },\r\n    {\r\n        \"pid\": \"34\",\r\n        \"title\": \"Akıllı Telefon\",\r\n        \"description\": \"Akıllı telefon, iletişim ve eğlence için vazgeçilmez bir araçtır. Gelişmiş özellikleri ile her anınızı kaydedebilir, internet erişimi sayesinde dünyaya bağlanabilirsiniz. Şık tasarımı ve kullanıcı dostu arayüzü ile dikkat çeker.\",\r\n        \"price\": 2000\r\n    },\r\n    {\r\n        \"pid\": \"35\",\r\n        \"title\": \"Oyun Faresi\",\r\n        \"description\": \"Oyun faresi, oyun performansınızı artırmak için özel olarak tasarlanmıştır. Yüksek hassasiyeti ile rakiplerinizle başa çıkmanıza yardımcı olur. Konforlu yapısı ile uzun oyun seanslarında bile rahatlık sağlar.\",\r\n        \"price\": 60\r\n    },\r\n    {\r\n        \"pid\": \"36\",\r\n        \"title\": \"Sanal Gerçeklik Gözlüğü\",\r\n        \"description\": \"Sanal gerçeklik gözlüğü, yeni nesil oyun ve eğlence deneyimleri sunar. Farklı oyun ve uygulamalarla etkileşimde bulunmanızı sağlar. Eşsiz bir deneyim için tasarlanmıştır. Oyun dünyasına adım atın.\",\r\n        \"price\": 1200\r\n    },\r\n    {\r\n        \"pid\": \"37\",\r\n        \"title\": \"Mikrofon\",\r\n        \"description\": \"Mikrofon, kayıt ve canlı yayın için idealdir. Yüksek ses kalitesi ile profesyonel sonuçlar almanızı sağlar. Taşınabilir yapısı sayesinde her yerde kullanabilirsiniz. İçerik üreticileri için vazgeçilmezdir.\",\r\n        \"price\": 200\r\n    },\r\n    {\r\n        \"pid\": \"38\",\r\n        \"title\": \"Ses Sistemi\",\r\n        \"description\": \"Ses sistemi, film ve müzik deneyiminizi üst seviyeye taşır. Yüksek kaliteli ses çıkışı ile etkileyici bir dinleme deneyimi sunar. Farklı bağlantı seçenekleri ile her cihaza uyum sağlar.\",\r\n        \"price\": 400\r\n    },\r\n    {\r\n        \"pid\": \"39\",\r\n        \"title\": \"Kablolu Kulaklık\",\r\n        \"description\": \"Kablolu kulaklık, müzik dinleme veya video izleme için idealdir. Konforlu yapısı sayesinde uzun süreli kullanımlarda bile rahatsızlık vermez. Yüksek ses kalitesi ile eğlencenizi artırır.\",\r\n        \"price\": 70\r\n    },\r\n    {\r\n        \"pid\": \"40\",\r\n        \"title\": \"Kamp Mutfak Seti\",\r\n        \"description\": \"Kamp mutfak seti, doğada yemek hazırlamak için gerekli tüm araçları içerir. Taşınabilir yapısı ile kolayca yanınıza alabilirsiniz. Dayanıklı malzemelerle üretilmiştir ve uzun ömürlüdür.\",\r\n        \"price\": 150\r\n    },\r\n    {\r\n        \"pid\": \"41\",\r\n        \"title\": \"Sıcak Su Torbası\",\r\n        \"description\": \"Sıcak su torbası, soğuk günlerde sıcak kalmanızı sağlar. Kullanımı kolaydır ve rahatsızlık hissini azaltır. Farklı renk ve desen seçenekleri ile kişisel zevkinize uygun seçim yapabilirsiniz.\",\r\n        \"price\": 20\r\n    },\r\n    {\r\n        \"pid\": \"42\",\r\n        \"title\": \"Piknik Sepeti\",\r\n        \"description\": \"Piknik sepeti, dışarıda yemek için mükemmel bir seçenektir. İçinde tabak, çatal ve bıçak gibi malzemeleri barındırır. Şık tasarımı ile pikniklerinizi daha keyifli hale getirir. Ailenizle birlikte güzel anlar geçirmenizi sağlar.\",\r\n        \"price\": 60\r\n    },\r\n    {\r\n        \"pid\": \"43\",\r\n        \"title\": \"Dış Mekan Oyun Alanı\",\r\n        \"description\": \"Dış mekan oyun alanı, çocukların enerjilerini atmalarını sağlar. Farklı oyun araçları ile eğlenceli vakit geçirmelerini destekler. Güvenli malzemelerle üretilmiştir ve uzun süre dayanıklıdır.\",\r\n        \"price\": 300\r\n    },\r\n    {\r\n        \"pid\": \"44\",\r\n        \"title\": \"Çocuklar için Eğitici Oyun Seti\",\r\n        \"description\": \"Eğitici oyun seti, çocukların zihin gelişimini destekler. Renkli ve eğlenceli tasarımı ile çocukların ilgisini çeker. Farklı aktiviteler ile öğrenme sürecini keyifli hale getirir.\",\r\n        \"price\": 80\r\n    },\r\n    {\r\n        \"pid\": \"45\",\r\n        \"title\": \"Bardak Seti\",\r\n        \"description\": \"Bardak seti, misafirlerinize şık sunumlar yapmanızı sağlar. Farklı boyut ve tasarımlarda bardakları içerir. Dayanıklı malzemelerle üretilmiştir ve uzun süreli kullanım için uygundur.\",\r\n        \"price\": 40\r\n    },\r\n    {\r\n        \"pid\": \"46\",\r\n        \"title\": \"Şamdan\",\r\n        \"description\": \"Şamdan, ev dekorasyonunuza zarif bir dokunuş katar. Farklı tasarımları ile her tarza uyum sağlar. Mum ışığı ile romantik bir atmosfer oluşturur. Özel günlerde şık bir alternatif sunar.\",\r\n        \"price\": 25\r\n    },\r\n    {\r\n        \"pid\": \"47\",\r\n        \"title\": \"Çerçeve\",\r\n        \"description\": \"Çerçeve, anılarınızı saklamak için idealdir. Farklı boyut ve tarzları ile her dekorasyona uyum sağlar. Kaliteli malzemeleri sayesinde uzun ömürlüdür. Özel anlarınızı hatırlamak için mükemmel bir seçenektir.\",\r\n        \"price\": 20\r\n    },\r\n    {\r\n        \"pid\": \"48\",\r\n        \"title\": \"Duvar Saati\",\r\n        \"description\": \"Duvar saati, ev dekorasyonunuza işlevsellik katar. Modern ve klasik tasarımları ile her ortama uyum sağlar. Hem zamanı gösterir hem de estetik bir görünüm sunar.\",\r\n        \"price\": 45\r\n    },\r\n    {\r\n        \"pid\": \"49\",\r\n        \"title\": \"Hediyelik Kutular\",\r\n        \"description\": \"Hediyelik kutular, özel günlerde sevdiklerinize hediye sunmanın şık bir yoludur. Farklı boyut ve desenlerde kutular içerir. Hediye vermenin yanı sıra dekoratif bir öğe olarak da kullanılabilir.\",\r\n        \"price\": 30\r\n    },\r\n    {\r\n        \"pid\": \"50\",\r\n        \"title\": \"Baskılı Yastık\",\r\n        \"description\": \"Baskılı yastık, ev dekorasyonunuza kişisel bir dokunuş katar. Farklı desen ve renk seçenekleri ile oturma odanızı veya yatak odanızı renklendirir. Rahat bir kullanım sunar.\",\r\n        \"price\": 50\r\n    },\r\n    {\r\n        \"pid\": \"51\",\r\n        \"title\": \"Aromaterapi Difüzörü\",\r\n        \"description\": \"Aromaterapi difüzörü, evinize hoş bir koku yayarak atmosferi güzelleştirir. Farklı aromaları kullanarak ruh halinizi iyileştirebilirsiniz. Şık tasarımı ile dekoratif bir öğe olarak da yer alır.\",\r\n        \"price\": 120\r\n    },\r\n    {\r\n        \"pid\": \"52\",\r\n        \"title\": \"Mutfak Aletleri Seti\",\r\n        \"description\": \"Mutfak aletleri seti, yemek yaparken ihtiyaç duyacağınız çeşitli araçları içerir. Dayanıklı malzemelerden üretilmiştir ve uzun ömürlüdür. Yemek hazırlıklarınızı kolaylaştırır.\",\r\n        \"price\": 150\r\n    },\r\n    {\r\n        \"pid\": \"53\",\r\n        \"title\": \"Tava\",\r\n        \"description\": \"Tava, yemeklerinizi pratik bir şekilde pişirmenizi sağlar. Kaliteli kaplama ile yapışmaz yüzey sunar. Farklı boyutlarda seçenekleri ile her türlü yemek için uygundur.\",\r\n        \"price\": 80\r\n    },\r\n    {\r\n        \"pid\": \"54\",\r\n        \"title\": \"Tencere Seti\",\r\n        \"description\": \"Tencere seti, çeşitli yemekleri hazırlamak için idealdir. Farklı boyutlarda tencereler içerir. Dayanıklı malzemeleri sayesinde uzun ömürlü kullanım sunar. Yemek pişirmeyi keyifli hale getirir.\",\r\n        \"price\": 200\r\n    },\r\n    {\r\n        \"pid\": \"55\",\r\n        \"title\": \"Sos Tavası\",\r\n        \"description\": \"Sos tavası, sosların ve küçük yemeklerin hazırlanması için idealdir. Kaliteli kaplama ile yapışmaz yüzey sunar. Pratik yapısıyla mutfakta yer kaplamaz ve kolayca saklanır.\",\r\n        \"price\": 40\r\n    },\r\n    {\r\n        \"pid\": \"56\",\r\n        \"title\": \"Mutfak Robotu\",\r\n        \"description\": \"Mutfak robotu, yemek hazırlık süreçlerini hızlandırır. Çok işlevli tasarımı ile dilimleme, doğrama ve karıştırma işlemlerini kolayca yapar. Enerji verimliliği ile hem pratik hem de ekonomik bir seçenektir.\",\r\n        \"price\": 300\r\n    },\r\n    {\r\n        \"pid\": \"57\",\r\n        \"title\": \"Kahve Makinesi\",\r\n        \"description\": \"Kahve makinesi, sabah kahvenizi hızlı bir şekilde hazırlamanızı sağlar. Farklı kahve türlerini hazırlayabilme özelliği ile çeşitlilik sunar. Şık tasarımı ile mutfaklarınıza estetik katar.\",\r\n        \"price\": 400\r\n    },\r\n    {\r\n        \"pid\": \"58\",\r\n        \"title\": \"Su Şişesi\",\r\n        \"description\": \"Su şişesi, günlük su ihtiyacınızı karşılamak için idealdir. Taşınabilir yapısıyla her yere götürebilirsiniz. Farklı renk ve tasarımlarda seçenekleri ile tarzınızı yansıtır.\",\r\n        \"price\": 15\r\n    },\r\n    {\r\n        \"pid\": \"59\",\r\n        \"title\": \"Meyve Kesici\",\r\n        \"description\": \"Meyve kesici, meyvelerinizi pratik bir şekilde dilimlemenizi sağlar. Kolay kullanımı ile mutfakta zaman kazandırır. Dayanıklı malzemelerden üretilmiştir ve uzun ömürlüdür.\",\r\n        \"price\": 35\r\n    },\r\n    {\r\n        \"pid\": \"60\",\r\n        \"title\": \"Dondurucu\",\r\n        \"description\": \"Dondurucu, gıdalarınızı uzun süre saklamanızı sağlar. Geniş iç hacmi ile her türlü yiyeceği depolamak için uygundur. Enerji verimliliği ile tasarruf sağlar ve mutfağınıza pratiklik katar.\",\r\n        \"price\": 1200\r\n    },\r\n    {\r\n        \"pid\": \"61\",\r\n        \"title\": \"Pizza Taşı\",\r\n        \"description\": \"Pizza taşı, evde mükemmel pizzalar yapmanıza yardımcı olur. Isıyı eşit şekilde dağıtarak daha iyi pişirme sağlar. Farklı boyut seçenekleri ile her pizza için uygundur.\",\r\n        \"price\": 100\r\n    },\r\n    {\r\n        \"pid\": \"62\",\r\n        \"title\": \"Baharatlık Seti\",\r\n        \"description\": \"Baharatlık seti, mutfaklarınıza renk katarken baharatlarınızı düzenlemenize yardımcı olur. Farklı boyut ve tasarımlarda seçenekler sunar. Yemeklerinize tat katmak için vazgeçilmezdir.\",\r\n        \"price\": 50\r\n    },\r\n    {\r\n        \"pid\": \"63\",\r\n        \"title\": \"Çaydanlık\",\r\n        \"description\": \"Çaydanlık, Türk çayını mükemmel bir şekilde demlemek için tasarlanmıştır. Farklı boyutlarda seçenekler sunar. Şık tasarımı ile mutfaklarınıza estetik bir görünüm katar.\",\r\n        \"price\": 80\r\n    },\r\n    {\r\n        \"pid\": \"64\",\r\n        \"title\": \"Pasta Kalıbı\",\r\n        \"description\": \"Pasta kalıbı, evde lezzetli pastalar yapmanızı sağlar. Dayanıklı malzemelerden üretilmiştir ve kolayca temizlenir. Farklı boyut seçenekleri ile her türlü pasta için uygundur.\",\r\n        \"price\": 40\r\n    },\r\n    {\r\n        \"pid\": \"65\",\r\n        \"title\": \"Mutfak Tartısı\",\r\n        \"description\": \"Mutfak tartısı, tariflerinizi doğru bir şekilde hazırlamanıza yardımcı olur. Hassas ölçüm yapabilme özelliği ile malzemeleri tam oranında kullanmanızı sağlar. Pratik tasarımı ile mutfakta yer kaplamaz.\",\r\n        \"price\": 50\r\n    },\r\n    {\r\n        \"pid\": \"66\",\r\n        \"title\": \"Şekerlik\",\r\n        \"description\": \"Şekerlik, şekerlerinizi düzenli bir şekilde saklamak için idealdir. Farklı tasarım ve renk seçenekleri ile mutfağınıza estetik katar. Misafirlerinize şık sunumlar yapmanızı sağlar.\",\r\n        \"price\": 25\r\n    },\r\n    {\r\n        \"pid\": \"67\",\r\n        \"title\": \"Buz Kalıbı\",\r\n        \"description\": \"Buz kalıbı, içeceklerinizi serinletmek için pratik bir üründür. Farklı şekillerde seçenekleri ile eğlenceli bir sunum yapabilirsiniz. Dayanıklı malzemelerden üretilmiştir ve uzun ömürlüdür.\",\r\n        \"price\": 10\r\n    },\r\n    {\r\n        \"pid\": \"68\",\r\n        \"title\": \"Tabak Seti\",\r\n        \"description\": \"Tabak seti, yemeklerinizi şık bir şekilde sunmanızı sağlar. Farklı boyut ve desenlerde tabakları içerir. Kaliteli malzemelerden üretilmiştir ve uzun ömürlüdür.\",\r\n        \"price\": 70\r\n    },\r\n    {\r\n        \"pid\": \"69\",\r\n        \"title\": \"Çatal Bıçak Takımı\",\r\n        \"description\": \"Çatal bıçak takımı, sofralarınızı süslemek için idealdir. Farklı tasarımlarda seçenekleri ile her masaya uyum sağlar. Dayanıklı yapısıyla uzun ömürlü kullanım sunar.\",\r\n        \"price\": 100\r\n    },\r\n    {\r\n        \"pid\": \"70\",\r\n        \"title\": \"Masa Örtüsü\",\r\n        \"description\": \"Masa örtüsü, yemek masanıza estetik bir görünüm kazandırır. Farklı renk ve desenlerde seçenekleri ile her ortama uyum sağlar. Kolayca temizlenebilir.\",\r\n        \"price\": 35\r\n    },\r\n    {\r\n        \"pid\": \"71\",\r\n        \"title\": \"Sandalye Kılıfı\",\r\n        \"description\": \"Sandalye kılıfı, sandalyelerinizi koruyarak dekorasyonunuza renk katar. Farklı desen ve renk seçenekleri ile evinize şıklık katar. Kolayca takılıp çıkarılabilir.\",\r\n        \"price\": 25\r\n    },\r\n    {\r\n        \"pid\": \"72\",\r\n        \"title\": \"Peçetelik\",\r\n        \"description\": \"Peçetelik, masalarınıza şıklık katar. Farklı tasarım ve renk seçenekleri ile her ortama uyum sağlar. Fonksiyonel yapısı ile peçetelerinizi düzenli bir şekilde saklamanızı sağlar.\",\r\n        \"price\": 15\r\n    },\r\n    {\r\n        \"pid\": \"73\",\r\n        \"title\": \"Pasta Servis Takımı\",\r\n        \"description\": \"Pasta servis takımı, özel günlerde pasta sunumunuzu şık bir şekilde yapmanızı sağlar. Farklı tasarımlarda seçenekleri ile her masa için uygundur. Dayanıklı malzemelerle üretilmiştir.\",\r\n        \"price\": 60\r\n    },\r\n    {\r\n        \"pid\": \"74\",\r\n        \"title\": \"Masa Takvimi\",\r\n        \"description\": \"Masa takvimi, planlamalarınızı düzenlemenize yardımcı olur. Farklı tasarım seçenekleri ile ofis veya evde kullanabilirsiniz. Kullanımı kolaydır ve estetik bir görünüm sunar.\",\r\n        \"price\": 25\r\n    },\r\n        {\r\n        \"pid\": \"75\",\r\n        \"title\": \"Kahvaltı Tabağı\",\r\n        \"description\": \"Kahvaltı tabağı, kahvaltı sofralarınızı zenginleştirir. Farklı desen ve boyut seçenekleri ile şık sunum yapmanızı sağlar. Kaliteli malzemelerle üretilmiştir.\",\r\n        \"price\": 45\r\n    },\r\n        {\r\n        \"pid\": \"76\",\r\n        \"title\": \"Aşçı Kıyafeti\",\r\n        \"description\": \"Aşçı kıyafeti, mutfakta rahat hareket etmenizi sağlar. Şık tasarımı ile profesyonel bir görünüm sunar. Dayanıklı ve kolayca temizlenebilir malzemelerden üretilmiştir.\",\r\n        \"price\": 120\r\n    },\r\n        {\r\n        \"pid\": \"77\",\r\n        \"title\": \"Pasta Kutusu\",\r\n        \"description\": \"Pasta kutusu, pasta ve diğer tatlıların güvenli bir şekilde taşınmasını sağlar. Farklı boyutlarda seçenekleri ile her tür pasta için uygundur. Dayanıklı yapısıyla uzun ömürlüdür.\",\r\n        \"price\": 30\r\n        }\r\n]\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/products/saveAll",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"products",
+								"saveAll"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -878,7 +921,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "",
+							"raw": "// tüm dataların alındığı api",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -886,13 +929,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{nodeip}}/itemlist/_search",
+							"raw": "http://{{nodeip}}/allproducts/_search",
 							"protocol": "http",
 							"host": [
 								"{{nodeip}}"
 							],
 							"path": [
-								"itemlist",
+								"allproducts",
 								"_search"
 							]
 						}
@@ -932,15 +975,15 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{nodeip}}/search2/_doc/600",
+							"raw": "http://{{nodeip}}/allproducts/_doc/11",
 							"protocol": "http",
 							"host": [
 								"{{nodeip}}"
 							],
 							"path": [
-								"search2",
+								"allproducts",
 								"_doc",
-								"600"
+								"11"
 							]
 						}
 					},
@@ -979,19 +1022,19 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{nodeip}}/search2/_search?q=customerId:7741",
+							"raw": "http://{{nodeip}}/allproducts/_search?q=title:kalem",
 							"protocol": "http",
 							"host": [
 								"{{nodeip}}"
 							],
 							"path": [
-								"search2",
+								"allproducts",
 								"_search"
 							],
 							"query": [
 								{
 									"key": "q",
-									"value": "customerId:7741"
+									"value": "title:kalem"
 								}
 							]
 						}
@@ -1224,6 +1267,9 @@
 				},
 				{
 					"name": "Searh All",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"auth": {
 							"type": "basic",
@@ -1242,6 +1288,15 @@
 						},
 						"method": "GET",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "// index içindeki tüm dataları al",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
 							"raw": "http://{{nodeip}}/itemlist/_search",
 							"protocol": "http",
