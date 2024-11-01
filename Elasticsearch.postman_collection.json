@@ -366,6 +366,132 @@
 					"response": []
 				},
 				{
+					"name": "Create Index - Nested",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"mappings\": {\r\n    \"properties\": {\r\n      \"name\": { \"type\": \"text\" },\r\n      \"comments\": {\r\n        \"type\": \"nested\",\r\n        \"properties\": {\r\n          \"text\": { \"type\": \"text\" },\r\n          \"date\": { \"type\": \"date\" }\r\n        }\r\n      }\r\n    }\r\n  }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{nodeip}}/users",
+							"protocol": "http",
+							"host": [
+								"{{nodeip}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Index Semantic",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"settings\": {\r\n    \"analysis\": {\r\n      \"filter\": {\r\n        \"synonym_filter\": {\r\n          \"type\": \"synonym\",\r\n          \"synonyms_path\": \"synonyms.txt\"\r\n        }\r\n      },\r\n      \"analyzer\": {\r\n        \"synonym_analyzer\": {\r\n          \"tokenizer\": \"standard\",\r\n          \"filter\": [\r\n            \"lowercase\",\r\n            \"synonym_filter\"\r\n          ]\r\n        }\r\n      }\r\n    }\r\n  },\r\n  \"mappings\": {\r\n    \"properties\": {\r\n      \"title\": {\r\n        \"type\": \"text\",\r\n        \"analyzer\": \"synonym_analyzer\"\r\n      },\r\n      \"content\": {\r\n        \"type\": \"text\",\r\n        \"analyzer\": \"synonym_analyzer\"\r\n      }\r\n    }\r\n  }\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{nodeip}}/datasemantic",
+							"protocol": "http",
+							"host": [
+								"{{nodeip}}"
+							],
+							"path": [
+								"datasemantic"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Index Semantic - Finans",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"settings\": {\r\n    \"analysis\": {\r\n      \"filter\": {\r\n        \"synonym_filter_finans\": {\r\n          \"type\": \"synonym\",\r\n          \"synonyms_path\": \"finas.txt\"\r\n        }\r\n      },\r\n      \"analyzer\": {\r\n        \"synonym_analyzer\": {\r\n          \"tokenizer\": \"standard\",\r\n          \"filter\": [\r\n            \"lowercase\",\r\n            \"synonym_filter_finans\"\r\n          ]\r\n        }\r\n      }\r\n    }\r\n  },\r\n  \"mappings\": {\r\n    \"properties\": {\r\n      \"title\": {\r\n        \"type\": \"text\",\r\n        \"analyzer\": \"synonym_analyzer\"\r\n      },\r\n      \"content\": {\r\n        \"type\": \"text\",\r\n        \"analyzer\": \"synonym_analyzer\"\r\n      }\r\n    }\r\n  }\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{nodeip}}/finanssemantic",
+							"protocol": "http",
+							"host": [
+								"{{nodeip}}"
+							],
+							"path": [
+								"finanssemantic"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Create Index - Mapping",
 					"request": {
 						"auth": {
@@ -535,6 +661,33 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "New Insert",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"mappings\": {\n    \"properties\": {\n      \"title\": { \"type\": \"text\" },\n      \"tags\": { \"type\": \"keyword\" }\n    }\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{nodeip}}/asd",
+							"protocol": "http",
+							"host": [
+								"{{nodeip}}"
+							],
+							"path": [
+								"asd"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -563,7 +716,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{ // post yöntemi için kayıt put yöntemi için update yapar.\r\n    \"title\": \"Cat-1\",\r\n    \"content\":\"Cat Detay\",\r\n    \"author\":\"Ahmet-\",\r\n    \"date\": \"\",\r\n    \"tags\": \"cat\"\r\n}",
+							"raw": "{ // post yöntemi için kayıt put yöntemi için update yapar.\r\n    \"title\": \"Cat2\",\r\n    \"tags\": \"cat2\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -571,13 +724,189 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{nodeip}}/category/_doc/",
+							"raw": "http://{{nodeip}}/asd/_doc/",
 							"protocol": "http",
 							"host": [
 								"{{nodeip}}"
 							],
 							"path": [
-								"category",
+								"asd",
+								"_doc",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Insert Document - Autocomplate",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": " {\r\n        \"itemName\": \"Kahve Makinesi\",\r\n        \"itemId\": \"105\",\r\n        \"category\": \"Elektronik\"\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{nodeip}}/itemlist_autocomplete/_doc/",
+							"protocol": "http",
+							"host": [
+								"{{nodeip}}"
+							],
+							"path": [
+								"itemlist_autocomplete",
+								"_doc",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Insert Document - Nested",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Hasan\",\r\n  \"comments\": [\r\n    { \"text\": \"Comment - 1!\", \"date\": \"2023-10-01\" },\r\n    { \"text\": \"Comment - 2.\", \"date\": \"2023-10-02\" }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{nodeip}}/users/_doc/",
+							"protocol": "http",
+							"host": [
+								"{{nodeip}}"
+							],
+							"path": [
+								"users",
+								"_doc",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Insert Document  - Semantic",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{ // post yöntemi için kayıt put yöntemi için update yapar.\r\n    \"title\": \"kedici\",\r\n    \"content\": \"hayvan\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{nodeip}}/datasemantic/_doc/",
+							"protocol": "http",
+							"host": [
+								"{{nodeip}}"
+							],
+							"path": [
+								"datasemantic",
+								"_doc",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Insert Document  - Semantic Finans",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \r\n    \"title\": \"Varlık değeri\",\r\n    \"content\": \"Selin Varlık değerlerini aldı\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{nodeip}}/finanssemantic/_doc/",
+							"protocol": "http",
+							"host": [
+								"{{nodeip}}"
+							],
+							"path": [
+								"finanssemantic",
 								"_doc",
 								""
 							]
@@ -890,6 +1219,36 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Get All Product - Search Pageable",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/products/search?title=kalem bilgisayar saray&page=0",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"products",
+								"search"
+							],
+							"query": [
+								{
+									"key": "title",
+									"value": "kalem bilgisayar saray"
+								},
+								{
+									"key": "page",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -898,6 +1257,50 @@
 			"item": [
 				{
 					"name": "Get Search All Document",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{nodeip}}/itemlist_autocomplete/_search?size=10&from=0",
+							"protocol": "http",
+							"host": [
+								"{{nodeip}}"
+							],
+							"path": [
+								"itemlist_autocomplete",
+								"_search"
+							],
+							"query": [
+								{
+									"key": "size",
+									"value": "10"
+								},
+								{
+									"key": "from",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Search All Document - Semantic",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -921,7 +1324,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "// tüm dataların alındığı api",
+							"raw": "{\n  \"query\": {\n    \"match\": {\n      \"title\": \"ali kedi hav hav dedi\"\n    }\n  }\n}\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -929,13 +1332,105 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{nodeip}}/allproducts/_search",
+							"raw": "http://{{nodeip}}/datasemantic/_search",
 							"protocol": "http",
 							"host": [
 								"{{nodeip}}"
 							],
 							"path": [
-								"allproducts",
+								"datasemantic",
+								"_search"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Search All Document - Semantic Finans",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"query\": {\n    \"match\": {\n      \"title\": \"User ortaklık hesabı\"\n    }\n  }\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{nodeip}}/finanssemantic/_search",
+							"protocol": "http",
+							"host": [
+								"{{nodeip}}"
+							],
+							"path": [
+								"finanssemantic",
+								"_search"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Search All Document - Nested User",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"query\": {\n        \"nested\": {\n            \"path\": \"comments\",\n            \"query\": {\n                \"multi_match\": {\n                    \"query\": \"Enes Commen yaptı\",\n                    \"fields\": [\n                        \"comments.text\"\n                    ],\n                    \"fuzziness\": \"auto\"\n                }\n            }\n        }\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{nodeip}}/users/_search",
+							"protocol": "http",
+							"host": [
+								"{{nodeip}}"
+							],
+							"path": [
+								"users",
 								"_search"
 							]
 						}
@@ -944,9 +1439,6 @@
 				},
 				{
 					"name": "Get Search By Id",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"auth": {
 							"type": "basic",
@@ -965,17 +1457,8 @@
 						},
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
-							"raw": "http://{{nodeip}}/allproducts/_doc/11",
+							"raw": "http://{{nodeip}}/allproducts/_doc/111",
 							"protocol": "http",
 							"host": [
 								"{{nodeip}}"
@@ -983,7 +1466,7 @@
 							"path": [
 								"allproducts",
 								"_doc",
-								"11"
+								"111"
 							]
 						}
 					},
@@ -1022,7 +1505,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{nodeip}}/allproducts/_search?q=title:kalem",
+							"raw": "http://{{nodeip}}/allproducts/_search?q=title:ali kale set",
 							"protocol": "http",
 							"host": [
 								"{{nodeip}}"
@@ -1034,7 +1517,7 @@
 							"query": [
 								{
 									"key": "q",
-									"value": "title:kalem"
+									"value": "title:ali kale set"
 								}
 							]
 						}
@@ -1063,7 +1546,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"query\": {\r\n        \"match\": {\r\n            \"customerId\": 7741\r\n        }\r\n    }\r\n}",
+							"raw": "{\r\n    \"query\": {\r\n        \"match\": {\r\n            \"title\": \"bilgisayar kalem\"\r\n        }\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1071,13 +1554,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{nodeip}}/search2/_search",
+							"raw": "http://{{nodeip}}/allproducts/_search",
 							"protocol": "http",
 							"host": [
 								"{{nodeip}}"
 							],
 							"path": [
-								"search2",
+								"allproducts",
 								"_search"
 							]
 						}
@@ -1106,7 +1589,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"query\":{\r\n        \"bool\":{\r\n            \"must\":[\r\n                {\"match\":{\"customerId\":7741}},\r\n                {\"match\":{\"age\":30}}\r\n            ]\r\n        }\r\n    }\r\n}",
+							"raw": "{ // must -> ve, should -> veya\r\n    \"size\": 3,\r\n    \"from\": 3,\r\n    \"query\": {\r\n        \"bool\": {\r\n            \"should\": [\r\n                {\r\n                    \"match\": {\r\n                        \"title\": \"bilgisayar kalem\"\r\n                    }\r\n                },\r\n                {\r\n                    \"match\": {\r\n                        \"description\": \"hızlı\"\r\n                    }\r\n                }\r\n            ],\r\n            \"must\": [\r\n                {\r\n                    \"match\": {\r\n                        \"price\": 100\r\n                    }\r\n                }\r\n            ]\r\n        }\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1114,13 +1597,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{nodeip}}/search2/_search",
+							"raw": "http://{{nodeip}}/allproducts/_search",
 							"protocol": "http",
 							"host": [
 								"{{nodeip}}"
 							],
 							"path": [
-								"search2",
+								"allproducts",
 								"_search"
 							]
 						}
@@ -1160,19 +1643,19 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{nodeip}}/search2/_count?q=customerId:7741",
+							"raw": "http://{{nodeip}}/allproducts/_count?q=description:kalem",
 							"protocol": "http",
 							"host": [
 								"{{nodeip}}"
 							],
 							"path": [
-								"search2",
+								"allproducts",
 								"_count"
 							],
 							"query": [
 								{
 									"key": "q",
-									"value": "customerId:7741"
+									"value": "description:kalem"
 								}
 							]
 						}
@@ -1201,7 +1684,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"query\":{\r\n        \"match\":{\r\n            \"customerId\":7741\r\n        }\r\n    }\r\n}",
+							"raw": "{\r\n    \"query\": {\r\n        \"bool\": {\r\n            \"should\": [\r\n                {\r\n                    \"match\": {\r\n                        \"title\": \"bilgisayar kalem\"\r\n                    }\r\n                },\r\n                {\r\n                    \"match\": {\r\n                        \"description\": \"hızlı\"\r\n                    }\r\n                }\r\n            ],\r\n            \"must\": [\r\n                {\r\n                    \"match\": {\r\n                        \"price\": 100\r\n                    }\r\n                }\r\n            ]\r\n        }\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1209,13 +1692,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{nodeip}}/search2/_count",
+							"raw": "http://{{nodeip}}/allproducts/_count",
 							"protocol": "http",
 							"host": [
 								"{{nodeip}}"
 							],
 							"path": [
-								"search2",
+								"allproducts",
 								"_count"
 							]
 						}
@@ -1298,13 +1781,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{nodeip}}/itemlist/_search",
+							"raw": "http://{{nodeip}}/allproducts/_search",
 							"protocol": "http",
 							"host": [
 								"{{nodeip}}"
 							],
 							"path": [
-								"itemlist",
+								"allproducts",
 								"_search"
 							]
 						}
@@ -1338,7 +1821,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"customerId\":9978,\r\n    \"customerName\":\"Ahmet Kurt\",\r\n    \"searchItem\":\"Spor Ayakkabısı\"\r\n}",
+							"raw": "{\r\n    \"pid\": \"111\",\r\n    \"title\": \"Gıda Temel ve Süt\",\r\n    \"description\": \"Gıda Temel, sağlıklı beslenmenin önemli bir parçasıdır. Bu ürün, günlük besin ihtiyacınızı karşılamak için gerekli olan temel gıda maddelerini içerir. Lezzetli ve doğal malzemelerden hazırlanmıştır. Aileniz için ideal bir seçimdir.\",\r\n    \"price\": 100\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1346,15 +1829,15 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{nodeip}}/search2/_doc/700",
+							"raw": "http://{{nodeip}}/allproducts/_doc/111",
 							"protocol": "http",
 							"host": [
 								"{{nodeip}}"
 							],
 							"path": [
-								"search2",
+								"allproducts",
 								"_doc",
-								"700"
+								"111"
 							]
 						}
 					},
@@ -1382,7 +1865,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"doc\":{\r\n        \"searchItem\":\"Y Spor Ayakkabisi\",\r\n        \"age\":44\r\n    }\r\n}",
+							"raw": "{\r\n    \"doc\":{\r\n        \"title\":\"Spor Ayakkabisi\"\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1390,15 +1873,15 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{nodeip}}/search2/_update/700",
+							"raw": "http://{{nodeip}}/allproducts/_update/111",
 							"protocol": "http",
 							"host": [
 								"{{nodeip}}"
 							],
 							"path": [
-								"search2",
+								"allproducts",
 								"_update",
-								"700"
+								"111"
 							]
 						}
 					},
@@ -1634,6 +2117,52 @@
 					"response": []
 				},
 				{
+					"name": "Match Query-1 - Autocomplate",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"size\": 1,\r\n    \"from\": 0,\r\n    \"query\":{\r\n        \"match\":{\r\n            \"itemName\":\"b\"\r\n        }\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{nodeip}}/itemlist_autocomplete/_search",
+							"protocol": "http",
+							"host": [
+								"{{nodeip}}"
+							],
+							"path": [
+								"itemlist_autocomplete",
+								"_search"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Match Query-2",
 					"request": {
 						"auth": {
@@ -1655,7 +2184,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"query\":{\r\n        \"match\":{\r\n            \"itemName\":\"Seker 5 Kg\"\r\n        }\r\n    }\r\n}",
+							"raw": "{\r\n    \"query\":{\r\n        \"match\":{\r\n            \"title\":\"bil bilgisayar\"\r\n        }\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1663,13 +2192,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{nodeip}}/itemlist/_search",
+							"raw": "http://{{nodeip}}/allproducts/_search",
 							"protocol": "http",
 							"host": [
 								"{{nodeip}}"
 							],
 							"path": [
-								"itemlist",
+								"allproducts",
 								"_search"
 							]
 						}
@@ -1698,7 +2227,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"query\":{\r\n        \"match\":{\r\n            \"itemName\":{\r\n                \"query\":\"Seker 5 Kg\",\r\n                \"operator\":\"and\"\r\n            }\r\n        }\r\n    }\r\n}",
+							"raw": "{\r\n    \"query\":{\r\n        \"match\":{\r\n            \"title\":{\r\n                \"query\":\"kitap\",\r\n                \"operator\":\"or\"\r\n            }\r\n        }\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1706,13 +2235,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{nodeip}}/itemlist/_search",
+							"raw": "http://{{nodeip}}/allproducts/_search",
 							"protocol": "http",
 							"host": [
 								"{{nodeip}}"
 							],
 							"path": [
-								"itemlist",
+								"allproducts",
 								"_search"
 							]
 						}
@@ -1827,7 +2356,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"query\":{\r\n        \"term\":{\r\n            \"category\":\r\n            {\r\n                \"value\":\"Gıda\",\r\n                \"case_insensitive\":false\r\n            }\r\n        }\r\n    }\r\n}",
+							"raw": "{\r\n    \"query\":{\r\n        \"term\":{\r\n            \"title\":\r\n            {\r\n                \"value\":\"Kalemtraş ali\",\r\n                \"case_insensitive\":true\r\n            }\r\n        }\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1835,13 +2364,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{nodeip}}/itemlist/_search",
+							"raw": "http://{{nodeip}}/allproducts/_search",
 							"protocol": "http",
 							"host": [
 								"{{nodeip}}"
 							],
 							"path": [
-								"itemlist",
+								"allproducts",
 								"_search"
 							]
 						}
@@ -1870,7 +2399,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"query\":{\r\n        \"terms\":{\r\n            \"category\":[\"gıda\",\"süt kahvaltılık\"]\r\n        }\r\n    }\r\n}",
+							"raw": "{\r\n    \"size\": 5,\r\n    \"from\": 0,\r\n    \"query\": {\r\n        \"term\": {\r\n            \"title\": {\r\n                \"value\": \"kalemtraş\",\r\n                \"case_insensitive\": true\r\n            }\r\n        }\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1878,13 +2407,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{nodeip}}/itemlist/_search",
+							"raw": "http://{{nodeip}}/allproducts/_search",
 							"protocol": "http",
 							"host": [
 								"{{nodeip}}"
 							],
 							"path": [
-								"itemlist",
+								"allproducts",
 								"_search"
 							]
 						}
@@ -1913,7 +2442,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"query\":{\r\n       \"bool\":{\r\n        \"must\":[\r\n            {\"match\":{\"itemName\":\"Mavı\"}},\r\n            {\"match\":{\"itemName\":\"Asperox\"}}\r\n        ]\r\n       }\r\n    }\r\n}",
+							"raw": "{\r\n    \"query\":{\r\n       \"bool\":{\r\n        \"must\":[\r\n            {\"match\":{\"title\":\"Bilgisayar\"}},\r\n            {\"match\":{\"description\":\"Bilgisayar\"}}\r\n        ]\r\n       }\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1921,13 +2450,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{nodeip}}/itemlist/_search",
+							"raw": "http://{{nodeip}}/allproducts/_search",
 							"protocol": "http",
 							"host": [
 								"{{nodeip}}"
 							],
 							"path": [
-								"itemlist",
+								"allproducts",
 								"_search"
 							]
 						}
@@ -1999,7 +2528,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"query\": {\r\n    \"fuzzy\": {\r\n      \"itemName\": {\r\n        \"value\": \"Tat\",\r\n        \"fuzziness\": \"AUTO\", // kelime uzunluğuna göre telafi örn: 2\r\n        \"max_expansions\": 50, // max 50 kelime olarak kullan\r\n        \"prefix_length\": 0, // ilk karakteri gözardı et - yoksay\r\n        \"transpositions\": true // ab → bas\r\n      }\r\n    }\r\n  }\r\n}",
+							"raw": "{\r\n    \"query\": {\r\n        \"multi_match\": {\r\n            \"query\": \"ali bilgil asdas\",\r\n            \"fields\": [\r\n                \"title\",\r\n                \"description\"\r\n            ],\r\n            \"fuzziness\": \"auto\"\r\n        }\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2007,13 +2536,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{nodeip}}/itemlist/_search",
+							"raw": "http://{{nodeip}}/allproducts/_search",
 							"protocol": "http",
 							"host": [
 								"{{nodeip}}"
 							],
 							"path": [
-								"itemlist",
+								"allproducts",
 								"_search"
 							]
 						}
@@ -2084,7 +2613,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"query\":{\r\n        \"range\":{\r\n            \"orderDate\":{\"gte\":\"now-60d\"} // gte, lte, \r\n        }\r\n    }\r\n}",
+							"raw": "{\r\n    \"size\": 10,\r\n    \"from\": 0,\r\n    \"sort\": [\r\n        { \"price\": \"desc\" } // asc\r\n    ],\r\n    \"query\":{\r\n        \"range\":{\r\n            //\"date\":{\"gte\":\"now-60d\"} // gte, lte, \r\n            \"price\":{\"gte\":50} // gte, lte, \r\n        }\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2092,13 +2621,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{nodeip}}/orderlist/_search",
+							"raw": "http://{{nodeip}}/allproducts/_search",
 							"protocol": "http",
 							"host": [
 								"{{nodeip}}"
 							],
 							"path": [
-								"orderlist",
+								"allproducts",
 								"_search"
 							]
 						}
@@ -2127,7 +2656,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"size\":0, // queryden data getirme aggs getir - toplam veri sayısı\r\n    \"aggs\":{ // sql - groupby - count - \r\n        \"countByCategory\":{ // isimlendirme\r\n            \"terms\":{ // şartlar\r\n                \"field\":\"category\"\r\n            }\r\n        }\r\n    }\r\n}",
+							"raw": "{\r\n    \"size\":0, // queryden data getirme aggs getir - toplam veri sayısı\r\n    \"aggs\":{ // sql - groupby - count - \r\n        \"countByCategory\":{ // isimlendirme\r\n            \"terms\":{ // şartlar\r\n                \"field\":\"tags\"\r\n            }\r\n        }\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2135,13 +2664,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{nodeip}}/itemslist/_search",
+							"raw": "http://{{nodeip}}/asd/_search",
 							"protocol": "http",
 							"host": [
 								"{{nodeip}}"
 							],
 							"path": [
-								"itemslist",
+								"asd",
 								"_search"
 							]
 						}
@@ -2170,7 +2699,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"size\":0,\r\n    \"query\":{\r\n        \"range\":{\r\n            \"orderDate\":{\"gte\":\"now-60d\"}\r\n        }\r\n    },\r\n    \"aggs\":{\r\n        \"price_sum\":{\r\n            \"sum\":{\r\n                \"field\":\"price\"\r\n            }\r\n        }\r\n    }\r\n}",
+							"raw": "{\r\n    \"size\":0,\r\n    \"query\":{\r\n        \"range\":{\r\n            \"price\":{\"gte\":30}\r\n        }\r\n    },\r\n    \"aggs\":{\r\n        \"price_sum\":{\r\n            \"sum\":{\r\n                \"field\":\"price\"\r\n            }\r\n        }\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2178,13 +2707,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{nodeip}}/orderlist/_search",
+							"raw": "http://{{nodeip}}/allproducts/_search",
 							"protocol": "http",
 							"host": [
 								"{{nodeip}}"
 							],
 							"path": [
-								"orderlist",
+								"allproducts",
 								"_search"
 							]
 						}
@@ -2668,7 +3197,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"settings\": {\r\n        \"index\": {\r\n            \"number_of_shards\": 6,\r\n            \"number_of_replicas\": 2\r\n        },\r\n        \"analysis\": {\r\n            \"filter\": {\r\n                \"autocomplete_filter\": {\r\n                    \"type\": \"edge_ngram\", // kaç harften \r\n                    \"min_gram\": 2, // 2 harften başla\r\n                    \"max_gram\": 10 // en fazla 10 harften oluş\r\n                }\r\n            },\r\n            \"analyzer\": {\r\n                \"autocomplete_analyzer\": {\r\n                    \"type\": \"custom\", // özel olsun\r\n                    \"tokenizer\": \"standard\", // bölerken standart yap\r\n                    \"filter\": [\r\n                        \"lowercase\", // büyükhartf duyarlılığı\r\n                        \"autocomplete_filter\" // yukarıdaki ayarları burada uygula\r\n                    ]\r\n                }\r\n            }\r\n        }\r\n    },\r\n    \"mappings\": {\r\n        \"properties\": {\r\n            \"itemName\": {\r\n                \"type\": \"text\",\r\n                \"analyzer\": \"autocomplete_analyzer\" // yukardıdaki analyzer özelliği kullan\r\n            },\r\n            \"itemId\": {\r\n                \"type\": \"text\"\r\n            },\r\n            \"category\": {\r\n                \"type\": \"keyword\"\r\n            }\r\n        }\r\n    }\r\n}",
+							"raw": "{\r\n    \"settings\": {\r\n        \"index\": {\r\n            \"number_of_shards\": 6,\r\n            \"number_of_replicas\": 2\r\n        },\r\n        \"analysis\": {\r\n            \"filter\": {\r\n                \"autocomplete_filter\": {\r\n                    \"type\": \"edge_ngram\", // kaç harften \r\n                    \"min_gram\": 1, // 1 harften başla\r\n                    \"max_gram\": 15 // en fazla 10 harften oluş\r\n                }\r\n            },\r\n            \"analyzer\": {\r\n                \"autocomplete_analyzer\": {\r\n                    \"type\": \"custom\", // özel olsun\r\n                    \"tokenizer\": \"standard\", // bölerken standart yap\r\n                    \"filter\": [\r\n                        \"lowercase\", // büyükhartf duyarlılığı\r\n                        \"autocomplete_filter\" // yukarıdaki ayarları burada uygula\r\n                    ]\r\n                }\r\n            }\r\n        }\r\n    },\r\n    \"mappings\": {\r\n        \"properties\": {\r\n            \"itemName\": {\r\n                \"type\": \"text\",\r\n                \"analyzer\": \"autocomplete_analyzer\" // yukardıdaki analyzer özelliği kullan\r\n            },\r\n            \"itemId\": {\r\n                \"type\": \"text\"\r\n            },\r\n            \"category\": {\r\n                \"type\": \"keyword\"\r\n            }\r\n        }\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -3111,7 +3640,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"password\" : \"321321\",\r\n  \"roles\" : [ \"superuser\"],\r\n  \"full_name\" : \"Talha Kılıç\",\r\n  \"email\" : \"talha@gmail.com\"\r\n}",
+							"raw": "{\r\n  \"password\" : \"321321\",\r\n  \"roles\" : [ \"superuser\"],\r\n  \"full_name\" : \"Ali Bilmem\",\r\n  \"email\" : \"ali@gmail.com\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -3128,6 +3657,177 @@
 								"_security",
 								"user",
 								"talhaklc"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "anomaly",
+			"item": [
+				{
+					"name": "Create Anomaly Index",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"mappings\": {\r\n    \"properties\": {\r\n      \"timestamp\": { \"type\": \"date\" },\r\n      \"user_id\": { \"type\": \"text\" },\r\n      \"request_count\": { \"type\": \"long\" }\r\n    }\r\n  }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{nodeip}}/web_requests",
+							"protocol": "http",
+							"host": [
+								"{{nodeip}}"
+							],
+							"path": [
+								"web_requests"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Insert Document Anomaly",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"timestamp\": \"2024-9-01T00:00:00\",\r\n    \"user_id\": \"300\",\r\n    \"request_count\": 3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{nodeip}}/web_requests/_doc/",
+							"protocol": "http",
+							"host": [
+								"{{nodeip}}"
+							],
+							"path": [
+								"web_requests",
+								"_doc",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Anomaly",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"analysis_config\": {\r\n    \"bucket_span\": \"15m\",\r\n    \"detectors\": [\r\n      {\r\n        \"function\": \"sum\",\r\n        \"field_name\": \"request_count\",\r\n        \"by_field_name\": \"user_id\"\r\n      }\r\n    ]\r\n  },\r\n  \"data_description\": {\r\n    \"time_field\": \"timestamp\"\r\n  }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{nodeip}}/_ml/anomaly_detectors/web_requests_anomaly",
+							"protocol": "http",
+							"host": [
+								"{{nodeip}}"
+							],
+							"path": [
+								"_ml",
+								"anomaly_detectors",
+								"web_requests_anomaly"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Anomaly Start",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://{{nodeip}}/_ml/anomaly_detectors/web_requests_anomaly/_start",
+							"protocol": "http",
+							"host": [
+								"{{nodeip}}"
+							],
+							"path": [
+								"_ml",
+								"anomaly_detectors",
+								"web_requests_anomaly",
+								"_start"
 							]
 						}
 					},
