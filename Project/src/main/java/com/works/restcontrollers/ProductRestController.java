@@ -3,10 +3,7 @@ package com.works.restcontrollers;
 import com.works.entities.Product;
 import com.works.services.ProductService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,6 +17,15 @@ public class ProductRestController {
     @PostMapping("saveAll")
     public Iterable<Product> saveAll(@RequestBody List<Product> products) {
         return productService.saveAll(products);
+    }
+
+    @GetMapping("search")
+    public List<Product> search(
+            @RequestParam String title,
+            @RequestParam int page
+
+    ) {
+        return productService.findAllName(title, page );
     }
 
 }
